@@ -33,4 +33,8 @@ Starts the application using a local server, accessible at `localhost:4200`
 
 `npm run test`
 
-Runs the application test suite
+Runs the unit tests
+
+`npm run cypress:open`
+
+Runs the integration tests
