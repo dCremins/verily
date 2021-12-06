@@ -1,4 +1,5 @@
 export interface Launch {
+  id: string;
   flight_number: number;
   name: string;
   date_utc: string;
@@ -7,7 +8,7 @@ export interface Launch {
   date_precision: 'half' | 'quarter' | 'year' | 'month' | 'day' | 'hour';
   static_fire_date_utc: string | null;
   static_fire_date_unix: number | null;
-  tbd: boolean;
+  tdb: boolean;
   net: boolean;
   window: number | null;
   rocket: string | null;
@@ -25,18 +26,19 @@ export interface Launch {
     recovery_attempt: boolean | null;
     recovered: boolean | null;
     ships: string[];
-  };
-  crew: {
-    _id: false;
-    crew: string | null;
-    role: string | null;
-  }[];
+  } | null;
+  crew:
+    | {
+        _id: false;
+        crew: string | null;
+        role: string | null;
+      }[]
+    | string[];
   ships: string[];
-  capsules?: string;
+  capsules?: string[];
   payloads?: string[];
   launchpad: string | null;
   cores: {
-    _id: false;
     core: string | null;
     flight: number | null;
     gridfins: boolean | null;
@@ -51,23 +53,23 @@ export interface Launch {
     patch: {
       small: string | null;
       large: string | null;
-    };
+    } | null;
     reddit: {
       campaign: string | null;
       launch: string | null;
       media: string | null;
       recovery: string | null;
-    };
+    } | null;
     flickr: {
       small?: string[];
       original?: string[];
-    };
+    } | null;
     presskit: string | null;
     webcast: string | null;
     youtube_id: string | null;
     article: string | null;
     wikipedia: string | null;
-  };
+  } | null;
   auto_update: boolean;
-  launch_library_id: string | null;
+  launch_library_id?: string | null;
 }

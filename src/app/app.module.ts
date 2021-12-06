@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,6 +26,7 @@ import { TableComponent } from 'src/app/table/table.component';
     MatInputModule,
     MatPaginatorModule,
     MatSortModule,
+    MatTooltipModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

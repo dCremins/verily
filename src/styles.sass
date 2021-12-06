@@ -2,4 +2,30 @@
 
 body
     background-color: #424242
-    color: rgba(255,255,255,.7)
+    color: rgba(255,255,255,.8)
+
+h1 
+    color: rgba(255,255,255,.9)
+    text-align: center
+
+.table-container 
+    box-sizing: border-box
+    display: flex
+    flex-direction: column 
+    height: 100vh
+    max-width: 100%
+
+app-launches
+    box-sizing: border-box
+    display: flex
+    flex-direction: column 
+    flex: 1
+
+
+@media (min-width: 600px)
+    h1 
+        text-align: left
+    .table-container
+        margin: auto
+        max-width: 80%
+        padding: 20px

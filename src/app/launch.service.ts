@@ -11,18 +11,16 @@ import { SortDirection } from '@angular/material/sort';
 export class LaunchService {
   constructor(private http: HttpClient) {}
 
-  private spaceXApi = 'https://api.spacexdata.com/v5/launches/query'; // URL to web api
+  // https://github.com/r-spacex/SpaceX-API/blob/master/docs/launches/v5/query.md
+  private spaceXApi = 'https://api.spacexdata.com/v5/launches/query';
 
   private log(message: string) {
-    console.log({ message });
+    // Not really necessary but we could loop in analytics and stuff here
+    console.log({ log: message });
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
 
       // Let the app keep running by returning an empty result.
@@ -35,17 +33,16 @@ export class LaunchService {
     order: SortDirection,
     page: number,
   ): Observable<LaunchQueryResults | null> {
-    console.log({ sort, order, page });
+    // https://github.com/r-spacex/SpaceX-API/blob/master/docs/queries.md
     const body = {
       query: {},
       options: {
         sort: { [sort]: order },
-        page,
+        page: page + 1,
       },
     };
     return this.http.post<LaunchQueryResults | null>(this.spaceXApi, body).pipe(
       tap((_) => this.log('fetched launches')),
-      tap((stuff) => console.log({ stuff })),
       catchError(
         this.handleError<LaunchQueryResults | null>('getLaunches', null),
       ),

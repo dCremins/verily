@@ -1,29 +1,35 @@
-<div class="table-container">
+
   <mat-table [dataSource]="launches" class="mat-elevation-z8" 
     matSort matSortActive="flight_number" matSortDirection="asc">
     <ng-container matColumnDef="flight_number" class="flight">
-      <mat-header-cell mat-sort-header sortActionDescription="Sort by Flight" *matHeaderCellDef> Flight Number </mat-header-cell>
+      <mat-header-cell attr.data-cy="header-flight" mat-sort-header sortActionDescription="Sort by Flight" *matHeaderCellDef> Flight Number </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.flight_number}} </mat-cell>
     </ng-container>
   
     <ng-container matColumnDef="date_local">
-      <mat-header-cell mat-sort-header sortActionDescription="Sort by Year" *matHeaderCellDef> Launch Year </mat-header-cell>
+      <mat-header-cell attr.data-cy="header-year" mat-sort-header sortActionDescription="Sort by Year" *matHeaderCellDef> Launch Year </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.date_local | date:'yyyy'}} </mat-cell>
     </ng-container>
     
     <ng-container matColumnDef="name">
-      <mat-header-cell mat-sort-header sortActionDescription="Sort by Name" *matHeaderCellDef> Rocket Name </mat-header-cell>
+      <mat-header-cell attr.data-cy="header-name" mat-sort-header sortActionDescription="Sort by Name" *matHeaderCellDef> Rocket Name </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
     </ng-container>
     
     <ng-container matColumnDef="details">
-      <mat-header-cell *matHeaderCellDef> Details </mat-header-cell>
+      <mat-header-cell attr.data-cy="header-details" *matHeaderCellDef> Details </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.details}} </mat-cell>
     </ng-container>
   
     <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-    <mat-row matRipple *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'linked':!!row.links.presskit}" (click)="openPressKit(row)"></mat-row>
+    <mat-row matRipple 
+      attr.data-cy="row-{{row.flight_number}}"
+      matTooltip="{{!!row.links.presskit ? 'Open Press Kit' : 'No Press Kit Available'}}" 
+      matTooltipPosition="above"
+      matTooltipClass="row-tooltip"
+      *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'linked':!!row.links.presskit}" 
+      (click)="openPressKit(row)">
+    </mat-row>
   </mat-table>
   
   <mat-paginator [length]="resultsLength" [pageSize]="10" showFirstLastButtons aria-label="Select page of SpaceX Launch results"></mat-paginator>
-</div>

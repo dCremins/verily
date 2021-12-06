@@ -1,4 +1,9 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  ViewChild,
+  AfterViewInit,
+} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, SortDirection } from '@angular/material/sort';
@@ -12,6 +17,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
   selector: 'app-launches',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.sass'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent implements AfterViewInit {
   title = 'SpaceX Launch Schedule';
@@ -33,7 +39,7 @@ export class TableComponent implements AfterViewInit {
   constructor(private launchService: LaunchService, private router: Router) {}
 
   getLaunches(): void {
-    merge(this.sort.sortChange, this.paginator.page)
+    merge(this.sort?.sortChange, this.paginator?.page)
       .pipe(
         startWith({}),
         switchMap(() => {
@@ -68,7 +74,9 @@ export class TableComponent implements AfterViewInit {
   }
 
   openPressKit(launch: Launch) {
-    console.log({ launch });
+    // Not all launches have presskit links
+    // SpaceX Hosted Press Kit Links currently redirect to the main website
+    // https://github.com/r-spacex/SpaceX-API/issues/810
     if (launch.links && launch.links.presskit) {
       window.open(launch.links.presskit, '_blank');
     }
@@ -76,9 +84,10 @@ export class TableComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     // If the user changes the sort order, reset back to the first page.
-    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 1));
-    this.launches.sort = this.sort;
-    this.paginator.pageIndex = 1;
+    this.sort?.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+
     this.getLaunches();
+    this.launches.sort = this.sort;
+    this.launches.paginator = this.paginator;
   }
 }
